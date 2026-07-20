@@ -124,20 +124,3 @@ jobs:
           EOF
           npm run smoke
 
-  release:
-    needs: [test, knip, smoke]
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    steps:
-      - uses: actions/checkout@v5
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-node@v5
-        with:
-          node-version: "22"
-      - run: npm ci
-      - run: npm run build
-      - run: npx semantic-release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          LEFTHOOK: "0"
